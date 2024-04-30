@@ -20,10 +20,27 @@ add_compile_definitions($<$<BOOL:${LV_USE_LIBPNG}>:LV_USE_LIBPNG=1>)
 add_compile_definitions($<$<BOOL:${LV_USE_LIBJPEG_TURBO}>:LV_USE_LIBJPEG_TURBO=1>)
 add_compile_definitions($<$<BOOL:${LV_USE_FFMPEG}>:LV_USE_FFMPEG=1>)
 
+# add definition
+add_definitions(-DEEZ_FOR_LVGL)
+
+# Add eez-framework
+add_subdirectory(eez-framework)
+
+# Add ui files -> must be added also in add executable
+file( GLOB_RECURSE UI_H_FILES ui/*.h )
+file( GLOB UI_FILES ui/*.c )
+
+# Add lvgl
 add_subdirectory(lvgl)
+
 target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${SDL2_INCLUDE_DIRS})
 
-add_executable(main main/src/main.c main/src/mouse_cursor_icon.c)
+add_executable(main main/src/main.c main/src/mouse_cursor_icon.c ${UI_FILES} ${UI_H_FILES})
+
+target_link_libraries(main
+    lvgl
+    eez-framework
+)
 
 target_compile_definitions(main PRIVATE LV_CONF_INCLUDE_SIMPLE)
 target_link_libraries(main lvgl lvgl::examples lvgl::demos lvgl::thorvg ${SDL2_LIBRARIES} m pthread)

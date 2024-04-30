@@ -40,7 +40,8 @@
 					"isDefault": true
 				},
 				"problemMatcher": {
-					"owner": "cpp",
+					// "owner": "cpp",
+					"owner": "c++",
 					"fileLocation": ["relative", "${workspaceFolder}"],
 					"pattern": {
 						"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
